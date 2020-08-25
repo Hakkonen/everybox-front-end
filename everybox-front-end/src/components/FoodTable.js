@@ -14,15 +14,9 @@ export default function FoodTable() {
         getFood()
     }, [])
 
-    // Console.log items after load
-    // useEffect(() => {
-    //     for(const item of data) {
-    //         console.log(item)
-    //     }
-    // }, [data])
-
+    // Logs selected item info when... selected
     useEffect(() => {
-        console.log(selected)
+        console.log(data)
     }, [selected])
 
     // Async axios GET called by useEffect
@@ -33,8 +27,9 @@ export default function FoodTable() {
     }
 
     // Populates table items
+    let key = 0
     const tableItems = data.map((e) => 
-        <Table.Row id={e._id} className={selected.includes(e._id) ? "positive" : ""}>
+        <Table.Row id={e._id} key={key = key + 1} className={selected.includes(e._id) ? "positive" : ""}>
             <Table.Cell collapsing>
                 <Checkbox 
                     checked={selected.includes(e._id)}
@@ -47,7 +42,7 @@ export default function FoodTable() {
             </Table.Cell>
             <Table.Cell>{e.name}</Table.Cell>
             <Table.Cell>{e.available}</Table.Cell>
-        </Table.Row> 
+            </Table.Row> 
     )
 
     // MARK: UI Functions
@@ -72,14 +67,3 @@ export default function FoodTable() {
         </Table>
     )
 }
-
-{/* <Table.Row className={selected ? "positive" : ""}>
-<Table.Cell collapsing>
-    <Checkbox 
-        checked={selected === true}
-        onClick={() => setSelected(!selected)}
-    />
-</Table.Cell>
-<Table.Cell>Hot Dogs</Table.Cell>
-<Table.Cell>:)</Table.Cell>
-</Table.Row> */}
