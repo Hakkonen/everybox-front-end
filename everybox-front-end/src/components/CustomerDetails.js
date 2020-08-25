@@ -15,17 +15,15 @@ const radioStyle = {
 }
 
 export default function CustomerDetails() {
-    const [ halal, setHalal ] = useState(false)
-    const [ vegetarian, setVegetarian ] = useState(false)
-    const [ vegan, setVegan ] = useState(false)
+    const [ diet, setDiet ] = useState("")
 
     return (
         <Segment>
         <Form>
 
             <Form.Group widths="equal">
-                <Form.Input fluid label="First Name" placeholder="First Name..." />
-                <Form.Input fluid label="Last Name" placeholder="Last Name..." />
+                <Form.Input fluid required label="First Name" placeholder="First Name..." />
+                <Form.Input fluid required label="Last Name" placeholder="Last Name..." />
             </Form.Group>
             <Form.Group widths="equal">
                 <Form.Input fluid label="Phone number" placeholder="Phone Number..." />
@@ -44,22 +42,15 @@ export default function CustomerDetails() {
                 <Form.Radio 
                     label="Halal"
                     value="hl"
-                    checked={halal === true}
-                    onClick={() => {halal ? setHalal(false) : setHalal(true)}}
+                    checked={diet === "hl"}
+                    onClick={() => {!diet ? setDiet("hl") : setDiet("")}}
                     style={radioStyle}
                 />
                 <Form.Radio 
                     label="Vegetarian"
-                    value="v"
-                    checked={vegetarian === true}
-                    onClick={() => {vegetarian ? setVegetarian(false) : setVegetarian(true)}}
-                    style={radioStyle}
-                />
-                <Form.Radio 
-                    label="Vegan"
                     value="vg"
-                    checked={vegan === true}
-                    onClick={() => {vegan ? setVegan(false) : setVegan(true)}}
+                    checked={diet === "vg"}
+                    onClick={() => {!diet ? setDiet("vg") : setDiet("")}}
                     style={radioStyle}
                 />
             </Form.Group>
