@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Checkbox, Table, Container, Button } from 'semantic-ui-react'
+import { Header, Checkbox, Table, Container, Button } from 'semantic-ui-react'
 import axios from 'axios'
 
-// TODO: Select all button
+// Image styling
+const imgSize = {
+    width: "5vw"
+}
 
 export default function FoodTable() {
     const [ selected, setSelected ] = useState([])
@@ -16,7 +19,7 @@ export default function FoodTable() {
 
     // Logs selected item info when... selected
     useEffect(() => {
-        console.log(selected)
+        console.log(data)
     }, [selected])
 
     // Async axios GET called by useEffect
@@ -41,7 +44,12 @@ export default function FoodTable() {
                 />
             </Table.Cell>
             <Table.Cell>{e.name}</Table.Cell>
-            <Table.Cell>{e.available}</Table.Cell>
+            <Table.Cell>
+                <img 
+                style={imgSize}
+                src={`${e.img}`} 
+                alt="a"/>
+            </Table.Cell>
             </Table.Row> 
     )
 
@@ -67,7 +75,7 @@ export default function FoodTable() {
 
     // MARK: HTML/JSX
     return (
-        <Container>
+        <span>
 
         <Table celled selectable>
             <Table.Header>
@@ -87,6 +95,6 @@ export default function FoodTable() {
         <Button onClick={deselectAll}>Deselect All</Button>
         <Button floated='right'>Reset</Button>
         <Button floated='right'>Submit</Button>
-        </Container>
+        </span>
     )
 }

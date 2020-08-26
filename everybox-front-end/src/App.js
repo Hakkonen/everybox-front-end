@@ -18,7 +18,8 @@ function App() {
 
       <CustomerDetails />
       <FoodTable />
-      
+
+      <Divider hidden />
     </Container>
   )
 }
