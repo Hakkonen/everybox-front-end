@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Checkbox, Table } from 'semantic-ui-react'
+import { Checkbox, Table, Container, Button } from 'semantic-ui-react'
 import axios from 'axios'
 
 // TODO: Select all button
@@ -16,7 +16,7 @@ export default function FoodTable() {
 
     // Logs selected item info when... selected
     useEffect(() => {
-        console.log(data)
+        console.log(selected)
     }, [selected])
 
     // Async axios GET called by useEffect
@@ -35,8 +35,8 @@ export default function FoodTable() {
                     checked={selected.includes(e._id)}
                     onClick={() => 
                         selected.includes(e._id) 
-                        ? changeColour(e._id)
-                        : setSelected(prevState => [...prevState, e._id])
+                        ? removeItem(e._id)
+                        : addItem(e._id)
                     }
                 />
             </Table.Cell>
@@ -45,13 +45,30 @@ export default function FoodTable() {
             </Table.Row> 
     )
 
-    // MARK: UI Functions
-    const changeColour = (id) => {
+    // MARK: Basket Functions
+    const addItem = (id) => {
+        setSelected(prevState => [...prevState, id])
+    }
+
+    const removeItem = (id) => {
         setSelected(selected.filter((e) => (e !== id)))
+    }
+
+    const selectAll = (e) => {
+        setSelected([])
+        for(const item of data) {
+            setSelected(prevState => [...prevState, item._id])
+        }
+    }
+
+    const deselectAll = () => {
+        setSelected([])
     }
 
     // MARK: HTML/JSX
     return (
+        <Container>
+
         <Table celled selectable>
             <Table.Header>
                 <Table.Row>
@@ -65,5 +82,11 @@ export default function FoodTable() {
                 {tableItems}
             </Table.Body>
         </Table>
+
+        <Button onClick={selectAll}>Select All</Button>
+        <Button onClick={deselectAll}>Deselect All</Button>
+        <Button floated='right'>Reset</Button>
+        <Button floated='right'>Submit</Button>
+        </Container>
     )
 }

@@ -18,7 +18,7 @@ function App() {
 
       <CustomerDetails />
       <FoodTable />
-
+      
     </Container>
   )
 }
