@@ -93,8 +93,7 @@ export default function FoodTable() {
 
         <Button onClick={selectAll}>Select All</Button>
         <Button onClick={deselectAll}>Deselect All</Button>
-        <Button floated='right'>Reset</Button>
-        <Button floated='right'>Submit</Button>
+        <Button floated='right' color='green'>Submit</Button>
         </span>
     )
 }

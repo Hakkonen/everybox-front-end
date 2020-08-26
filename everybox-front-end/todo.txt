@@ -1,0 +1,9 @@
+1. COMPLETE SUBMIT BUTTON
+    On press collate basket data and contact details
+    then POST form to orders DB
+2. DIET
+    On clicking dietary options, disable items that
+    do not fit category
+3. UI
+    Add splash page, or reset contact fields if left
+    without activity for > 5 minutes.
