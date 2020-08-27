@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./App.css"
 
 import CustomerDetails from './components/CustomerDetails'
@@ -7,6 +7,19 @@ import FoodTable from './components/FoodTable'
 import { Container, Header, Divider } from 'semantic-ui-react'
 
 function App() {
+  const [ order, setOrder ] = useState({
+    firstname: "",
+    lastname: "",
+    email: null,
+    phone: "",
+    familySize: 1,
+    orderDate: null,
+    items: [{
+        
+    }],
+    orderNumber: 2
+  })
+
   return (
     <Container className="main">
       
@@ -16,8 +29,8 @@ function App() {
 
       <Divider hidden />
 
-      <CustomerDetails />
-      <FoodTable />
+      <CustomerDetails order={order} setOrder={setOrder} />
+      <FoodTable order={order} setOrder={setOrder} />
 
       <Divider hidden />
     </Container>
