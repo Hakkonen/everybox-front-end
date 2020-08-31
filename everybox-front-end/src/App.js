@@ -9,17 +9,16 @@ import EveryboxMenu from './components/Menu'
 
 function App() {
   const [ page, setPage ] = useState("")
+  const [ diet, setDiet ] = useState("")
   const [ order, setOrder ] = useState({
     firstname: "",
     lastname: "",
-    email: null,
     phone: "",
     familySize: 1,
-    orderDate: null,
     items: [{
         
     }],
-    orderNumber: 2,
+    orderNumber: "",
     isComplete: false
   })
 
@@ -41,9 +40,9 @@ function App() {
         Order Form
       </Header>
 
-      <CustomerDetails order={order} setOrder={setOrder} />
+      <CustomerDetails order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
 
-      <FoodTable order={order} setOrder={setOrder} />
+      <FoodTable order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
 
       <Divider hidden />
     </Container>

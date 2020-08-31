@@ -7,8 +7,6 @@ const radioStyle = {
 }
 
 export default function CustomerDetails(props) {
-    const [ diet, setDiet ] = useState("")
-
     // MARK: Fills order object with customer data onChange
     // TODO: Reduce repeating logic
     const handleFirstName = event => {
@@ -76,15 +74,15 @@ export default function CustomerDetails(props) {
                 <Form.Radio 
                     label="Halal"
                     value="hl"
-                    checked={diet === "hl"}
-                    onClick={() => {!diet ? setDiet("hl") : setDiet("")}}
+                    checked={props.diet === "hl"}
+                    onClick={() => {props.diet !== "hl" ? props.setDiet("hl") : props.setDiet("")}}
                     style={radioStyle}
                 />
                 <Form.Radio 
                     label="Vegetarian"
                     value="vg"
-                    checked={diet === "vg"}
-                    onClick={() => {!diet ? setDiet("vg") : setDiet("")}}
+                    checked={props.diet === "vg"}
+                    onClick={() => {props.diet !== "vg" ? props.setDiet("vg") : props.setDiet("")}}
                     style={radioStyle}
                 />
             </Form.Group>

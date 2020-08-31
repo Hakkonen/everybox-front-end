@@ -5,6 +5,13 @@
 2. DIET
     On clicking dietary options, disable items that
     do not fit category
+    --DONE--
 3. UI
     Add splash page, or reset contact fields if left
     without activity for > 5 minutes.
+    --Menu added--
+4. Automate post counter
+   Iterate ++ for each order post
+   --DONE--
+5. Reset page on submit
+   
