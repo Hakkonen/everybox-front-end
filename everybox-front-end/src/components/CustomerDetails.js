@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Checkbox, Form, Label, Divider, Segment } from 'semantic-ui-react'
 
-// MARK: Form values
-const familySize = [
-    { key: 1, text: "1", value: "1"},
-    { key: 2, text: "2", value: "2"},
-    { key: 3, text: "3", value: "3"},
-    { key: 4, text: "4", value: "4"}
-]
-
 // MARK: Styling
 const radioStyle = {
     padding: "0 0 0 1rem",
@@ -70,11 +62,9 @@ export default function CustomerDetails(props) {
                     placeholder="Phone Number..." 
                     onChange={handlePhone}
                 />
-                <Form.Select
-                    fluid
-                    label="Family size"
-                    options={familySize}
-                    placeholder="Family size..."
+                <Form.Input
+                    fluid label="Family size"
+                    placeholder="1"
                     onChange={handleFamilySize}
                 />
             </Form.Group>

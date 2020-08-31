@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Checkbox, Table, Button } from 'semantic-ui-react'
+import everyboxAPI from '../utils/everyboxAPI'
 import axios from 'axios'
 
 // Image styling
@@ -11,6 +12,10 @@ export default function FoodTable(props) {
     const [ selected, setSelected ] = useState([])
     const [ data, setData ] = useState([{}])
     const [ submit, setSubmit ] = useState(false)
+    const [ auth, setAuth ] = useState({
+        username: 'admin',
+        password: 'everybox!'
+    })
 
     // MARK: Load API data
     // GETs data from back-end
@@ -26,9 +31,13 @@ export default function FoodTable(props) {
     // Async axios GET called by useEffect
     // Fills table with available food
     const getFood = async () => {
-        const response = await axios.get("http://localhost:8080/api/foods/")
+        try {
+            const response = await everyboxAPI.get("foods")
         // const { data } = await response
         setData(response.data)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     // Populates table items
@@ -41,8 +50,9 @@ export default function FoodTable(props) {
         }>
             <Table.Cell collapsing>
                 <Checkbox 
+                    // Check box is active if selected contains item
                     checked={selected.includes(e._id)}
-                    // onChange={handleItemChange(e._id)}
+                    // If selected includes item then remove, else add
                     onClick={() => 
                         selected.includes(e._id) 
                         ? removeItem(e._id)
@@ -67,10 +77,6 @@ export default function FoodTable(props) {
         setSelected(prevState => [...prevState, itemId])
     }
 
-    useEffect(() => {
-        console.log(props.order)
-    }, [props.order])
-
     // Remove single item
     const removeItem = (id) => {
         setSelected(selected.filter((e) => (e !== id)))
@@ -91,12 +97,17 @@ export default function FoodTable(props) {
 
     // Updates order object when items are selected
     useEffect(() => {
+        // Points to object to copy
         const prevOrder = props.order
+        const familySize = props.order.familySize
+        // Creates empty array to populate
         let newOrder = []
+        // Pushes current selected items to array
         for(const item of selected) {
-            newOrder.push({ id: item, quantity: 1 })
+            newOrder.push({ id: item, quantity: familySize })
         }
         console.log(newOrder)
+        // Repopulates order object
         props.setOrder({...prevOrder, items: newOrder })
     
     }, [selected])
@@ -109,7 +120,17 @@ export default function FoodTable(props) {
 
         // POST request using axios inside useEffect React hook
         const order = props.order
-        axios.post('http://localhost:8080/api/orders', order)
+        axios.post('http://localhost:8080/api/orders', order, {
+            auth: {
+                username: "admin",
+                password: "everybox!"
+            }
+        })
+        .then(function(response) {
+            console.log('Authenticated');
+        }).catch(function(error) {
+            console.log('Error on Authentication');
+        })
     }, [submit])
 
     // MARK: HTML/JSX
