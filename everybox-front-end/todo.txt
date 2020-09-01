@@ -14,4 +14,12 @@
    Iterate ++ for each order post
    --DONE--
 5. Reset page on submit
-   
+
+6. Put form validation in place
+   --DONE--
+7. Migrate selected array to master order object
+    7a. When diet is changed with selections in basket,
+	remove those items from the basket, or just reset the whole thing
+    --Left as seperate array for code reduction--
+8. Refactor code
+    Componetize code to reduce page sizes

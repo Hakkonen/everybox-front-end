@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Checkbox, Form, Label, Divider, Segment } from 'semantic-ui-react'
+import { Form, Label, Divider, Segment, Button } from 'semantic-ui-react'
 
 // MARK: Styling
 const radioStyle = {
@@ -7,6 +7,8 @@ const radioStyle = {
 }
 
 export default function CustomerDetails(props) {
+    const [ formValidation, setFormValidation ] = useState(true)
+
     // MARK: Fills order object with customer data onChange
     // TODO: Reduce repeating logic
     const handleFirstName = event => {
@@ -24,16 +26,27 @@ export default function CustomerDetails(props) {
     const handlePhone = event => {
         const { value } = event.target
         const prevOrder = props.order
-        props.setOrder({ ...prevOrder, phone: value })
+        if(/^\d+$/.test(value)) {
+            props.setOrder({ ...prevOrder, phone: value })
+        }
     }
 
-    // FIX VALUE
     const handleFamilySize = event => {
         const { value } = event.target
         const prevOrder = props.order
-        props.setOrder({ ...prevOrder, familySize: value })
-        console.log(event)
+        if(/^\d+$/.test(value) && value < 14) {
+            props.setOrder({ ...prevOrder, familySize: value })
+            console.log(value)
+        }
     }
+
+    useEffect(() => {
+        if(props.order.firstname && props.order.lastname) {
+            setFormValidation(false)
+        } else {
+            setFormValidation(true)
+        }
+    }, [props.order.firstname, props.order.lastname])
 
     // MARK: Render form
     return (
@@ -86,8 +99,13 @@ export default function CustomerDetails(props) {
                     style={radioStyle}
                 />
             </Form.Group>
-
+            <Button 
+                    primary 
+                    disabled={formValidation}
+                    onClick={() => {props.setFormUnlock(true)}}
+                >Continue</Button>
         </Form>
         </Segment>
+        
     )
 }

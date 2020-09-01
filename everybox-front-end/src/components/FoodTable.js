@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Checkbox, Table, Button } from 'semantic-ui-react'
 import everyboxAPI from '../utils/everyboxAPI'
-// import axios from 'axios'
 
 // Image styling
 const imgSize = {
     width: "5vw"
 }
 
+// MARK: Main function
 export default function FoodTable(props) {
     const [ selected, setSelected ] = useState([])
     const [ data, setData ] = useState([{}])
@@ -31,21 +31,17 @@ export default function FoodTable(props) {
         }
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     // Define order number by
     // finding highest order number and iterate + 1
     const getOrderNumber = async () => {
         try {
             const apiGet = await everyboxAPI.get('http://localhost:8080/api/orders')
             const orders = apiGet.data
-            let highestOrder = 5
+            let highestOrder = 1
             for(const order of orders) {
-                highestOrder <= parseInt(order.orderNumber)
-                ? highestOrder = parseInt(order.orderNumber) + 1
-                : highestOrder = highestOrder
+                if(highestOrder <= parseInt(order.orderNumber)) {
+                    highestOrder = parseInt(order.orderNumber) + 1
+                }
             }
             props.setOrder(prevState => ({...prevState, orderNumber: highestOrder}))
         } catch (err) {
@@ -59,8 +55,10 @@ export default function FoodTable(props) {
         <Table.Row 
             id={e._id} 
             key={key = key + 1} 
+            // Highlights green when item is found in order object
             className={selected.includes(e._id) ? "positive" : ""}
-            disabled={(props.diet == "hl" && e.halal !== true) || (props.diet == "vg" && e.vegetarian !== true)}
+            // Disables according to diet options
+            disabled={(props.diet === "hl" && e.halal !== true) || (props.diet === "vg" && e.vegetarian !== true)}
         >
             <Table.Cell collapsing>
                 <Checkbox 
@@ -71,7 +69,6 @@ export default function FoodTable(props) {
                         selected.includes(e._id) 
                         ? removeItem(e._id)
                         : addItem(e._id)
-                    
                     }
                 />
             </Table.Cell>
@@ -88,24 +85,47 @@ export default function FoodTable(props) {
     // MARK: Basket Functions
     // Add single item
     const addItem = (itemId) => {
+        // Sets selected arr
         setSelected(prevState => [...prevState, itemId])
     }
 
     // Remove single item
-    const removeItem = (id) => {
-        setSelected(selected.filter((e) => (e !== id)))
+    const removeItem = (itemId) => {
+        // Sets selected array
+        setSelected(selected.filter((e) => (e !== itemId)))
     }
 
     // Add all foods
     const selectAll = (e) => {
+        // Resets selected array
         setSelected([])
-        for(const item of data) {
-            setSelected(prevState => [...prevState, item._id])
+        // This could perhaps be made more efficient by having diet stored
+        // as a string in the DB
+        if(props.diet === "hl") {
+            for(const item of data) {
+                if(item.halal == true) {
+                    // Populates selected arr for halal only
+                    setSelected(prevState => [...prevState, item._id])
+                }
+            }
+        } else if (props.diet === "vg") {
+            for(const item of data) {
+                if(item.vegetarian == true) {
+                    // Populates selected arr for veg only
+                    setSelected(prevState => [...prevState, item._id])
+                }
+            }
+        } else {
+            for(const item of data) {
+                // Adds all to selected arr
+                setSelected(prevState => [...prevState, item._id])
+            }
         }
     }
 
     // Remove all foods
     const deselectAll = () => {
+        // Removes all from selected
         setSelected([])
     }
 

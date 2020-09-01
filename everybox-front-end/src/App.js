@@ -3,13 +3,18 @@ import "./App.css"
 
 import CustomerDetails from './components/CustomerDetails'
 import FoodTable from './components/FoodTable'
-
-import { Button, Container, Header, Divider, Menu } from 'semantic-ui-react'
 import EveryboxMenu from './components/Menu'
 
+import { Container, Header, Divider } from 'semantic-ui-react'
+
 function App() {
-  const [ page, setPage ] = useState("")
+  // Form unlock allows the food table to appear once 
+  // customer details are filled in
+  const [ formUnlock, setFormUnlock ] = useState(false)
+  // Diet passes customer requirements to food table 
   const [ diet, setDiet ] = useState("")
+  // Order is the final order object that will be sent
+  // to the DB API
   const [ order, setOrder ] = useState({
     firstname: "",
     lastname: "",
@@ -40,9 +45,17 @@ function App() {
         Order Form
       </Header>
 
-      <CustomerDetails order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
+      <CustomerDetails 
+        order={order} setOrder={setOrder} 
+        diet={diet} setDiet={setDiet} 
+        setFormUnlock={setFormUnlock} 
+      />
 
-      <FoodTable order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
+      {
+        formUnlock 
+        ? <FoodTable order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
+        : null
+      }
 
       <Divider hidden />
     </Container>
