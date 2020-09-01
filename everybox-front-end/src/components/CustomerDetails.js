@@ -25,6 +25,7 @@ export default function CustomerDetails(props) {
 
     const handlePhone = event => {
         const { value } = event.target
+        console.log(event.target.error)
         const prevOrder = props.order
         if(/^\d+$/.test(value)) {
             props.setOrder({ ...prevOrder, phone: value })
@@ -36,17 +37,18 @@ export default function CustomerDetails(props) {
         const prevOrder = props.order
         if(/^\d+$/.test(value) && value < 14) {
             props.setOrder({ ...prevOrder, familySize: value })
-            console.log(value)
         }
     }
 
     useEffect(() => {
-        if(props.order.firstname && props.order.lastname) {
+        if(props.order.firstname 
+            && props.order.lastname 
+            && /^\d+$/.test(props.order.phone) == true) {
             setFormValidation(false)
         } else {
             setFormValidation(true)
         }
-    }, [props.order.firstname, props.order.lastname])
+    }, [props.order.firstname, props.order.lastname, props.order.phone])
 
     // MARK: Render form
     return (
