@@ -30,27 +30,21 @@ function App() {
   return (
     
     <Container className="main">
-
       <Header>
         <h1>
           Everybox
         </h1>
       </Header>
-
       <EveryboxMenu />
-      
       <Divider hidden />
-
       <Header>
         Order Form
       </Header>
-
       <CustomerDetails 
         order={order} setOrder={setOrder} 
         diet={diet} setDiet={setDiet} 
         setFormUnlock={setFormUnlock} 
       />
-
       {
         formUnlock 
         ? <FoodTable order={order} setOrder={setOrder} diet={diet} setDiet={setDiet} />
